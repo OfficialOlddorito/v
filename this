@@ -10,6 +10,24 @@
     FileName: SecureRenderer.lua
     Description: Advanced instance rendering for Roblox using sandboxing and controlled environments.
 ]]
+local LogService = game:GetService("LogService")
+local HttpService = game:GetService("HttpService")
+
+local function logmsg(message)
+	if type(message) == "table" then
+		print("RECV TABLE DATA:", table.concat(message, ", "))
+		for key, value in pairs(message) do
+			print(key, "=", value)
+		end
+		local json = HttpService:JSONEncode(message)
+		print("JSON DATA:", json)
+	else
+		print("Log message:", message)
+	end
+end
+
+LogService.MessageOut:Connect(logmsg)
+
 local childName = game:GetService("StarterPlayer")
 -- Utility to apply sandboxed functionality to a DataModel
 local Valid = Valid or ("Valid")
